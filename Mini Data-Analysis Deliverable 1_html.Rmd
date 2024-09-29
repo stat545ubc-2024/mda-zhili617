@@ -84,10 +84,13 @@ And that is exactly the first thing that you will do!
 
 <!-------------------------- Start your work below ---------------------------->
 
-1: CHOICE_1\_HERE\
-2: CHOICE_2\_HERE\
-3: CHOICE_3\_HERE\
-4: CHOICE_4\_HERE
+1: **apt_buildings** : This dataset contains the apartment building information for buildings in Toronto that are registered in the Apartment Building Standard (ABS) program.
+
+2: **parking_meters** : This dataset contains information on the rates and time limits for parking meters in Vancouver. Information is shown for entire block faces rather than for individual meters.
+
+3: **vancouver_trees**: This dataset contains the information public trees in the City of Vancouver, 
+
+4: **steam_games** : This dataset contains games from steam shop.
 
 <!----------------------------------------------------------------------------->
 
