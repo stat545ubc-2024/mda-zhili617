@@ -175,6 +175,19 @@ If we rewind and go back to the learning objectives, you'll see that by the end 
 Make sure that you're using dplyr and ggplot2 rather than base R for this task. Outside of this project, you may find that you prefer using base R functions for certain tasks, and that's just fine! But part of this project is for you to practice the tools we learned in class, which is dplyr and ggplot2.
 
 1.  Plot the distribution of a numeric variable.
+```{r}
+numeric_variables <- steam_games %>%
+  select(where(is.numeric)) #find all numeric variables.
+
+print(numeric_variables) #by this step found except id, there are only 3 numeric variables, then choose one of these numeric variable. I choose discount_price here.
+
+steam_games_discount_price<- ggplot(steam_games, aes(x = discount_price)) + #using the steam_games dataset and let discount_price to be value for x-axis.
+  geom_histogram( aes(y = after_stat(density)), binwidth = 1, color = "black", na.rm = TRUE) 
+#Crate a histogram and the y-axis be the density of discount_price. Let the wide of each bin to be 1; let the color of bins to be black; remove all NA values
+print(steam_games_discount_price) #show up the graph
+```
+
+
 2.  Create a new variable based on other variables in your data (only if it makes sense)
 3.  Investigate how many missing values there are per variable. Can you find a way to plot this?
 ```{r}
