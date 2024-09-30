@@ -101,8 +101,47 @@ And that is exactly the first thing that you will do!
 <!-------------------------- Start your work below ---------------------------->
 
 ```{r}
-### EXPLORE HERE ###
-steam_games
+apt_buildings_attributes <- apt_buildings%>% #pass the dataset apt_buildings into summarize() function
+                            summarize( #Collapses a group of information into a single row
+                              data_name = "Apartment Buildings", # Assigns a new character string "Apartment Buildings" to the column named data_name
+                              row_number = nrow(.), # Assigns the number of rows from dataset apt_buildings to the column named row_number
+                              variable_number = ncol(.), # Assigns the number of variable from dataset apt_buildings to the column named variable_number
+                              variable_name = list(colnames(.)), # Wrapping the name of each variables from apt_buildings into a list and assigning this list to the column named variable_name
+                              variable_type = list(sapply(., class)), # Wrapping the type of each class from apt_buildings into a list and assigning this list to the column named variable_name
+                              miss_value = list(colSums(is.na(.)))) #Wrapping the missing value of each class from apt_buildings into a list and assigning this list to the column named miss_value
+
+
+#Because the remaining three sets of code have almost the same content with the above one, only the dataset is modified, so I only explained the above one.
+
+parking_meters_attributes <- parking_meters%>%
+                            summarize( data_name = "Parking Meters",
+                                       row_number = nrow(.), 
+                                       variable_number = ncol(.),
+                                       variable_name = list(colnames(.)),
+                                       variable_type = list(sapply(., class)),
+                                       miss_value = list(colSums(is.na(.))))
+
+
+vancouver_trees_attributes <- vancouver_trees%>%
+                            summarize( data_name = "Vancouver Trees",
+                                       row_number = nrow(.), 
+                                       variable_number = ncol(.),
+                                       variable_name = list(colnames(.)),
+                                       variable_type = list(sapply(., class)),
+                                       miss_value = list(colSums(is.na(.))))
+
+
+steam_games_attributes <- steam_games%>%
+                            summarize( 
+                              data_name = "Steam Games",
+                              row_number = nrow(.), 
+                              variable_number = ncol(.),
+                              variable_name = list(colnames(.)),
+                              variable_type = list(sapply(., class)),
+                              miss_value = list(colSums(is.na(.))))
+
+
+bind_rows(apt_buildings_attributes, parking_meters_attributes, vancouver_trees_attributes,steam_games_attributes ) #Combine the four data frames containing attributes of different datasets into a single data frame.
 ```
 
 <!----------------------------------------------------------------------------->
