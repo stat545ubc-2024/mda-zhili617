@@ -149,6 +149,7 @@ bind_rows(apt_buildings_attributes, parking_meters_attributes, vancouver_trees_a
 1.3 **(1 point)** Now that you've explored the 4 datasets that you were initially most interested in, let's narrow it down to 1. What lead you to choose this one? Briefly explain your choice below.
 
 <!-------------------------- Start your work below ---------------------------->
+I'd like to choose **steam_games**. First of all, this dataset focuses on games available on Steam. As an active player on the platform, I have a personal interest in this content. Secondly, from the survey conducted in the previous question, I discovered that this dataset contains a relatively high number of missing values. I want to explore the impact of these missing values on the overall dataset. Finally, the dataset has a moderate number of variables and rows, which makes it more representative and manageable for analysis.
 
 <!----------------------------------------------------------------------------->
 
