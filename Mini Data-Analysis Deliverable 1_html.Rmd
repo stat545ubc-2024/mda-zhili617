@@ -141,7 +141,8 @@ steam_games_attributes <- steam_games%>%
                               miss_value = list(colSums(is.na(.))))
 
 
-bind_rows(apt_buildings_attributes, parking_meters_attributes, vancouver_trees_attributes,steam_games_attributes ) #Combine the four data frames containing attributes of different datasets into a single data frame.
+bind_rows(apt_buildings_attributes, parking_meters_attributes, vancouver_trees_attributes,steam_games_attributes ) #Combine the four data frames containing attributes of different datasets into one.
+
 ```
 
 <!----------------------------------------------------------------------------->
@@ -176,7 +177,22 @@ Make sure that you're using dplyr and ggplot2 rather than base R for this task. 
 1.  Plot the distribution of a numeric variable.
 2.  Create a new variable based on other variables in your data (only if it makes sense)
 3.  Investigate how many missing values there are per variable. Can you find a way to plot this?
-  4.  Explore the relationship between 2 variables in a plot.
+```{r}
+missing_values_steamgame <-steam_games %>% #pass the dataset steam_games into summarise() function
+                            summarise(across(everything(), ~sum(is.na(.))))%>% #count the missing value of each variables and create a tipple for with these counts
+                            pivot_longer(everything(), names_to = "variable_name", values_to = "missing_values_number") #transform the data from wide format to long format by creating two columns: one for variable names and one for their corresponding missing value counts. 
+print(missing_values_steamgame) # show up the new tipple that answer "how many missing values there are per variable"
+
+
+
+missing_value_graph<- ggplot(missing_values_steamgame, aes(y = variable_name)) + #plot a graph using the missing_values_steamgame tipple with the y-axis to be variable_name
+                      geom_bar(aes(weight = missing_values_number))+ #build a bar chart and specify missing_values_number provide the weight for each bar in the bar chart
+                      ggtitle("Find the number of missing for each variables") + #give a name for this graph
+                      ylab("number of missing values") + #set a label for y-axis
+                      xlab("variables") #set a label for x-axis
+print(missing_value_graph) #show up the plot that answer "how many missing values there are per variable"
+```
+4.  Explore the relationship between 2 variables in a plot.
 5.  Filter observations in your data according to your own criteria. Think of what you'd like to explore - again, if this was the `titanic` dataset, I may want to narrow my search down to passengers born in a particular year...
 6.  Use a boxplot to look at the frequency of different observations within a single variable. You can do this for more than one variable if you wish!
 7.  Make a new tibble with a subset of your data, with variables and observations that you are interested in exploring.
