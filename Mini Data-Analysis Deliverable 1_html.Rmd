@@ -208,6 +208,14 @@ print(missing_value_graph) #show up the plot that answer "how many missing value
 4.  Explore the relationship between 2 variables in a plot.
 5.  Filter observations in your data according to your own criteria. Think of what you'd like to explore - again, if this was the `titanic` dataset, I may want to narrow my search down to passengers born in a particular year...
 6.  Use a boxplot to look at the frequency of different observations within a single variable. You can do this for more than one variable if you wish!
+```{r}
+ggplot(steam_games, aes(x = is.na(discount_price), y = achievements)) +
+    geom_boxplot() +
+    ggtitle("Boxplot of Achievements Based on Missing Discount Price") +
+    xlab("Missing Discount Price") +
+    ylab("Achievements")
+
+```
 7.  Make a new tibble with a subset of your data, with variables and observations that you are interested in exploring.
 8.  Use a density plot to explore any of your variables (that are suitable for this type of plot).
 
