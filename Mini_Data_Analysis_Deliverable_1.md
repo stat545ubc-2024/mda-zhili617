@@ -406,31 +406,6 @@ ggplot(steam_games_numeric, aes(x = numerical_variable , y = value)) +
 ![](Mini_Data_Analysis_Deliverable_1_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
 ``` r
-#check the max , min value and median, mean
-max(steam_games_numeric$value, na.rm= TRUE)
-```
-
-    ## [1] 730640
-
-``` r
-min(steam_games_numeric$value, na.rm= TRUE)
-```
-
-    ## [1] 0
-
-``` r
-mean(steam_games_numeric$value, na.rm= TRUE)
-```
-
-    ## [1] 56.33731
-
-``` r
-median(steam_games_numeric$value, na.rm= TRUE)
-```
-
-    ## [1] 9.99
-
-``` r
 #due to the outlier to big and the mean and median are too small, I decide to draw another side-by-side box plot and set the upper and lower limits of the y-axis so that I can have a clear boxplot.
 
 ggplot(steam_games_numeric, aes(x = numerical_variable , y = value)) +
@@ -446,6 +421,49 @@ ggplot(steam_games_numeric, aes(x = numerical_variable , y = value)) +
 observations that you are interested in exploring. 8. Use a density plot
 to explore any of your variables (that are suitable for this type of
 plot).
+
+``` r
+ggplot(steam_games, aes(x = achievements)) + #select the achievements from steam_games to be the x-axis.
+  geom_density(fill = "lightblue", color = "darkblue", alpha = 0.7) + #draw a density graph with the fill color of the area below the density curve is light blue and the edge color of the density curve is dark blue
+  xlim(0, 100)+ #let the range of x-axis to be 0 to 100 (without this code, it is hard to see the graph's detail)
+  ggtitle("Density Plot of Achievements") + #give a title to this graph
+  xlab("Achievements") + #Label the x-axis
+  ylab("Density") #Label the x-axis
+```
+
+    ## Warning: Removed 29162 rows containing non-finite outside the scale range
+    ## (`stat_density()`).
+
+![](Mini_Data_Analysis_Deliverable_1_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+
+``` r
+#Because the remaining three sets of code have almost the same content with the above one, only the dataset is modified, so I only explained the above one.
+
+ggplot(steam_games, aes(x = original_price)) +
+  geom_density(fill = "lightblue", color = "darkblue", alpha = 0.7) +
+  xlim(0, 100)+
+  ggtitle("Density Plot of Original Price") +
+  xlab("Original Price") +
+  ylab("Density") 
+```
+
+    ## Warning: Removed 5897 rows containing non-finite outside the scale range
+    ## (`stat_density()`).
+
+![](Mini_Data_Analysis_Deliverable_1_files/figure-gfm/unnamed-chunk-6-2.png)<!-- -->
+
+``` r
+ggplot(steam_games, aes(x = discount_price)) +
+  geom_density(fill = "lightblue", color = "darkblue", alpha = 0.7) +
+  ggtitle("Density Plot of Discount Price") +
+  xlab("Discount Price") +
+  ylab("Density") 
+```
+
+    ## Warning: Removed 26290 rows containing non-finite outside the scale range
+    ## (`stat_density()`).
+
+![](Mini_Data_Analysis_Deliverable_1_files/figure-gfm/unnamed-chunk-6-3.png)<!-- -->
 
 2.2 **(4 points)** For each of the 4 exercises that you complete,
 provide a *brief explanation* of why you chose that exercise in relation

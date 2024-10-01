@@ -191,9 +191,6 @@ print(steam_games_discount_price) #show up the graph
 2.  Create a new variable based on other variables in your data (only if it makes sense)
 
 
-
-
-
 3.  Investigate how many missing values there are per variable. Can you find a way to plot this?
 ```{r}
 missing_values_steamgame <-steam_games %>% #pass the dataset steam_games into summarise() function
@@ -225,12 +222,6 @@ ggplot(steam_games_numeric, aes(x = numerical_variable , y = value)) +
   ylab("Value") + #Label the y-axis
   xlab("Numerical Variables") #Label the x-axis
 
-#check the max , min value and median, mean
-max(steam_games_numeric$value, na.rm= TRUE)
-min(steam_games_numeric$value, na.rm= TRUE)
-mean(steam_games_numeric$value, na.rm= TRUE)
-median(steam_games_numeric$value, na.rm= TRUE)
-
 #due to the outlier to big and the mean and median are too small, I decide to draw another side-by-side box plot and set the upper and lower limits of the y-axis so that I can have a clear boxplot.
 
 ggplot(steam_games_numeric, aes(x = numerical_variable , y = value)) +
@@ -242,6 +233,32 @@ ggplot(steam_games_numeric, aes(x = numerical_variable , y = value)) +
 ```
 7.  Make a new tibble with a subset of your data, with variables and observations that you are interested in exploring.
 8.  Use a density plot to explore any of your variables (that are suitable for this type of plot).
+```{r}
+ggplot(steam_games, aes(x = achievements)) + #select the achievements from steam_games to be the x-axis.
+  geom_density(fill = "lightblue", color = "darkblue", alpha = 0.7) + #draw a density graph with the fill color of the area below the density curve is light blue and the edge color of the density curve is dark blue
+  xlim(0, 100)+ #let the range of x-axis to be 0 to 100 (without this code, it is hard to see the graph's detail)
+  ggtitle("Density Plot of Achievements") + #give a title to this graph
+  xlab("Achievements") + #Label the x-axis
+  ylab("Density") #Label the x-axis
+
+#Because the remaining three sets of code have almost the same content with the above one, only the dataset is modified, so I only explained the above one.
+
+ggplot(steam_games, aes(x = original_price)) +
+  geom_density(fill = "lightblue", color = "darkblue", alpha = 0.7) +
+  xlim(0, 100)+
+  ggtitle("Density Plot of Original Price") +
+  xlab("Original Price") +
+  ylab("Density") 
+
+ggplot(steam_games, aes(x = discount_price)) +
+  geom_density(fill = "lightblue", color = "darkblue", alpha = 0.7) +
+  ggtitle("Density Plot of Discount Price") +
+  xlab("Discount Price") +
+  ylab("Density") 
+
+
+```
+
 
 2.2 **(4 points)** For each of the 4 exercises that you complete, provide a *brief explanation* of why you chose that exercise in relation to your data (in other words, why does it make sense to do that?), and sufficient comments for a reader to understand your reasoning and code.
 
