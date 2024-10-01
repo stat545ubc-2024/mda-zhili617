@@ -552,6 +552,28 @@ Write the 4 questions and any additional comments below.
 
 <!--- *****START HERE***** --->
 
+1.  How are games from different types or publishers discounted?
+    **comment**: Maybe categorize the discount price into low, median,
+    and high, then calculate the proportion of different game types or
+    publishers. This allows me to explore how different game types or
+    publishers use discount strategies.
+
+2.  How are games with different original_price ranges distributed
+    across types? **comment**: Again categorize the original price and
+    calculate the proportion of different game types.
+
+3.  How do missing values impact the analysis of discount_price in Steam
+    games? **comment**: This is a subdivision of the 1.4 problem. I
+    would like to try to study where the missing values are mainly
+    concentrated if the discount price is divided into several levels.
+
+4.  How do original_price and discount_price relate to each other?
+    **comment**: Since I divided to research original_price related to
+    types and discount_price related to types individually, it still can
+    not tell the relationship between these two variables. Studying
+    their relationship might be a good aspect to see if the original
+    price affects the discount price.
+
 <!----------------------------->
 
 # Overall reproducibility/Cleanliness/Coherence Checklist
