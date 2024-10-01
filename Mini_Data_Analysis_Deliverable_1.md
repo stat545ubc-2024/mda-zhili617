@@ -455,42 +455,33 @@ observations that you are interested in exploring.
 
 ``` r
 ggplot(steam_games, aes(x = achievements)) + #select the achievements from steam_games to be the x-axis.
-  geom_density(fill = "lightblue", color = "darkblue", alpha = 0.7) + #draw a density graph with the fill color of the area below the density curve is light blue and the edge color of the density curve is dark blue
+  geom_density(fill = "lightblue", color = "darkblue", alpha = 0.7, na.rm = TRUE) + #draw a density graph with the fill color of the area below the density curve is light blue and the edge color of the density curve is dark blue
   xlim(0, 100)+ #let the range of x-axis to be 0 to 100 (without this code, it is hard to see the graph's detail)
   ggtitle("Density Plot of Achievements") + #give a title to this graph
   xlab("Achievements") + #Label the x-axis
   ylab("Density") #Label the y-axis
 ```
 
-    ## Warning: Removed 29162 rows containing non-finite outside the scale range
-    ## (`stat_density()`).
-
 ![](Mini_Data_Analysis_Deliverable_1_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
 ``` r
 ggplot(steam_games, aes(x = original_price)) +
-  geom_density(fill = "lightblue", color = "darkblue", alpha = 0.7) +
+  geom_density(fill = "lightblue", color = "darkblue", alpha = 0.7, na.rm = TRUE) +
   xlim(0, 100)+
   ggtitle("Density Plot of Original Price") +
   xlab("Original Price") +
   ylab("Density") 
 ```
 
-    ## Warning: Removed 5897 rows containing non-finite outside the scale range
-    ## (`stat_density()`).
-
 ![](Mini_Data_Analysis_Deliverable_1_files/figure-gfm/unnamed-chunk-6-2.png)<!-- -->
 
 ``` r
 ggplot(steam_games, aes(x = discount_price)) +
-  geom_density(fill = "lightblue", color = "darkblue", alpha = 0.7) +
+  geom_density(fill = "lightblue", color = "darkblue", alpha = 0.7, na.rm = TRUE) +
   ggtitle("Density Plot of Discount Price") +
   xlab("Discount Price") +
   ylab("Density") 
 ```
-
-    ## Warning: Removed 26290 rows containing non-finite outside the scale range
-    ## (`stat_density()`).
 
 ![](Mini_Data_Analysis_Deliverable_1_files/figure-gfm/unnamed-chunk-6-3.png)<!-- -->
 
