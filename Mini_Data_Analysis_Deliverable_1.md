@@ -174,56 +174,63 @@ comments outside of the code chunk?
 <!-------------------------- Start your work below ---------------------------->
 
 ``` r
-apt_buildings_attributes <- apt_buildings%>% #pass the dataset apt_buildings into summarize() function
-                            summarize( #Collapses a group of information into a single row
+apt_buildings_attributes <- apt_buildings%>% #pass the dataset apt_buildings into reframe() function
+                            reframe( #Collapses a group of information into a single row
                               data_name = "Apartment Buildings", # Assigns a new character string "Apartment Buildings" to the column named data_name
                               row_number = nrow(.), # Assigns the number of rows from dataset apt_buildings to the column named row_number
                               variable_number = ncol(.), # Assigns the number of variable from dataset apt_buildings to the column named variable_number
-                              variable_name = list(colnames(.)), # Wrapping the name of each variables from apt_buildings into a list and assigning this list to the column named variable_name
-                              variable_type = list(sapply(., class)), # Wrapping the type of each class from apt_buildings into a list and assigning this list to the column named variable_name
-                              miss_value = list(colSums(is.na(.)))) #Wrapping the missing value of each class from apt_buildings into a list and assigning this list to the column named miss_value
+                              variable_name = colnames(.), # Assign variables' name from dataset to the column named variable_name
+                              variable_type = sapply(., class), # Assign variables' class from dataset to the column named variable_name
+                              miss_value = colSums(is.na(.))) #Assign missing value of each variable from dataset to the column named miss_value
 
 
 #Because the remaining three sets of code have almost the same content with the above one, only the dataset is modified, so I only explained the above one.
 
 parking_meters_attributes <- parking_meters%>%
-                            summarize( data_name = "Parking Meters",
+                            reframe( data_name = "Parking Meters",
                                        row_number = nrow(.), 
                                        variable_number = ncol(.),
-                                       variable_name = list(colnames(.)),
-                                       variable_type = list(sapply(., class)),
-                                       miss_value = list(colSums(is.na(.))))
+                                       variable_name = colnames(.),
+                                       variable_type = sapply(., class),
+                                       miss_value = colSums(is.na(.)))
 
 
 vancouver_trees_attributes <- vancouver_trees%>%
-                            summarize( data_name = "Vancouver Trees",
+                            reframe( data_name = "Vancouver Trees",
                                        row_number = nrow(.), 
                                        variable_number = ncol(.),
-                                       variable_name = list(colnames(.)),
-                                       variable_type = list(sapply(., class)),
-                                       miss_value = list(colSums(is.na(.))))
+                                       variable_name = colnames(.),
+                                       variable_type = sapply(., class),
+                                       miss_value = colSums(is.na(.)))
 
 
 steam_games_attributes <- steam_games%>%
-                            summarize( 
+                            reframe( 
                               data_name = "Steam Games",
                               row_number = nrow(.), 
                               variable_number = ncol(.),
-                              variable_name = list(colnames(.)),
-                              variable_type = list(sapply(., class)),
-                              miss_value = list(colSums(is.na(.))))
+                              variable_name = colnames(.),
+                              variable_type = sapply(., class),
+                              miss_value = colSums(is.na(.)))
 
 
 bind_rows(apt_buildings_attributes, parking_meters_attributes, vancouver_trees_attributes,steam_games_attributes ) #Combine the four data frames containing attributes of different datasets into one.
 ```
 
-    ## # A tibble: 4 × 6
-    ##   data_name    row_number variable_number variable_name variable_type miss_value
-    ##   <chr>             <int>           <int> <list>        <list>        <list>    
-    ## 1 Apartment B…       3455              37 <chr [37]>    <chr [37]>    <dbl [37]>
-    ## 2 Parking Met…      10032              22 <chr [22]>    <chr [22]>    <dbl [22]>
-    ## 3 Vancouver T…     146611              20 <chr [20]>    <chr [20]>    <dbl [20]>
-    ## 4 Steam Games       40833              21 <chr [21]>    <chr [21]>    <dbl [21]>
+    ## # A tibble: 100 × 6
+    ##    data_name   row_number variable_number variable_name variable_type miss_value
+    ##    <chr>            <int>           <int> <chr>         <chr>              <dbl>
+    ##  1 Apartment …       3455              37 id            numeric                0
+    ##  2 Apartment …       3455              37 air_conditio… character             85
+    ##  3 Apartment …       3455              37 amenities     character           2518
+    ##  4 Apartment …       3455              37 balconies     character             88
+    ##  5 Apartment …       3455              37 barrier_free… character             82
+    ##  6 Apartment …       3455              37 bike_parking  character              0
+    ##  7 Apartment …       3455              37 exterior_fir… character             95
+    ##  8 Apartment …       3455              37 fire_alarm    character             87
+    ##  9 Apartment …       3455              37 garbage_chut… character             83
+    ## 10 Apartment …       3455              37 heating_type  character             86
+    ## # ℹ 90 more rows
 
 <!----------------------------------------------------------------------------->
 
@@ -252,6 +259,9 @@ think of 1 research question that you would want to answer with your
 dataset. Note it down below.
 
 <!-------------------------- Start your work below ---------------------------->
+
+What is the impact of missing values (NA) on the analysis of numerical
+variables in the Steam game dataset?
 <!----------------------------------------------------------------------------->
 
 # Important note
@@ -326,6 +336,23 @@ print(steam_games_discount_price) #show up the graph
 
 ![](Mini_Data_Analysis_Deliverable_1_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
+``` r
+steam_games_achievements<- ggplot(steam_games, aes(x = achievements)) + 
+  geom_histogram( aes(y = after_stat(density)), binwidth = 1, color = "black", na.rm = TRUE) 
+print(steam_games_achievements) 
+```
+
+![](Mini_Data_Analysis_Deliverable_1_files/figure-gfm/unnamed-chunk-3-2.png)<!-- -->
+
+``` r
+steam_games_original_price<- ggplot(steam_games, aes(x = original_price)) + 
+  geom_histogram( aes(y = after_stat(density)), binwidth = 1, color = "black", na.rm = TRUE) +
+  xlim(0, 2000) #To ensure the shape of output is clear.
+  print(steam_games_original_price) 
+```
+
+![](Mini_Data_Analysis_Deliverable_1_files/figure-gfm/unnamed-chunk-3-3.png)<!-- -->
+
 2.  Create a new variable based on other variables in your data (only if
     it makes sense)
 
@@ -364,13 +391,16 @@ print(missing_value_graph) #show up the plot that answer "how many missing value
 ```
 
 ![](Mini_Data_Analysis_Deliverable_1_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
-4. Explore the relationship between 2 variables in a plot. 5. Filter
-observations in your data according to your own criteria. Think of what
-you’d like to explore - again, if this was the `titanic` dataset, I may
-want to narrow my search down to passengers born in a particular year…
-6. Use a boxplot to look at the frequency of different observations
-within a single variable. You can do this for more than one variable if
-you wish!
+4. Explore the relationship between 2 variables in a plot.
+
+5.  Filter observations in your data according to your own criteria.
+    Think of what you’d like to explore - again, if this was the
+    `titanic` dataset, I may want to narrow my search down to passengers
+    born in a particular year…
+
+6.  Use a boxplot to look at the frequency of different observations
+    within a single variable. You can do this for more than one variable
+    if you wish!
 
 ``` r
 steam_games_numeric <- steam_games %>%
@@ -418,9 +448,10 @@ ggplot(steam_games_numeric, aes(x = numerical_variable , y = value)) +
 
 ![](Mini_Data_Analysis_Deliverable_1_files/figure-gfm/unnamed-chunk-5-2.png)<!-- -->
 7. Make a new tibble with a subset of your data, with variables and
-observations that you are interested in exploring. 8. Use a density plot
-to explore any of your variables (that are suitable for this type of
-plot).
+observations that you are interested in exploring.
+
+8.  Use a density plot to explore any of your variables (that are
+    suitable for this type of plot).
 
 ``` r
 ggplot(steam_games, aes(x = achievements)) + #select the achievements from steam_games to be the x-axis.
@@ -428,7 +459,7 @@ ggplot(steam_games, aes(x = achievements)) + #select the achievements from steam
   xlim(0, 100)+ #let the range of x-axis to be 0 to 100 (without this code, it is hard to see the graph's detail)
   ggtitle("Density Plot of Achievements") + #give a title to this graph
   xlab("Achievements") + #Label the x-axis
-  ylab("Density") #Label the x-axis
+  ylab("Density") #Label the y-axis
 ```
 
     ## Warning: Removed 29162 rows containing non-finite outside the scale range
@@ -437,8 +468,6 @@ ggplot(steam_games, aes(x = achievements)) + #select the achievements from steam
 ![](Mini_Data_Analysis_Deliverable_1_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
 ``` r
-#Because the remaining three sets of code have almost the same content with the above one, only the dataset is modified, so I only explained the above one.
-
 ggplot(steam_games, aes(x = original_price)) +
   geom_density(fill = "lightblue", color = "darkblue", alpha = 0.7) +
   xlim(0, 100)+
@@ -471,6 +500,46 @@ to your data (in other words, why does it make sense to do that?), and
 sufficient comments for a reader to understand your reasoning and code.
 
 <!-------------------------- Start your work below ---------------------------->
+
+1.  Plot the distribution of a numeric variable. (plot the distribution
+    for achievements, discount_price, and original_price): Since there
+    are only 3 useful numeric variables (the id variable does not count
+    in it), I decided to plot three distribution graphs for these three
+    variables. Also, understanding the distribution of a numerical
+    variable is a fundamental step in data exploration. It can show the
+    shape of distribution, outliers, and modality of data. Most
+    importantly, while the distribution graph does not directly show
+    missing values, it can indirectly reflect their impact. This might
+    help me to answer the question I gave in 1.4.
+
+2.  Investigate how many missing values there are per variable. Can you
+    find a way to plot this? (show up the missing values for each
+    variable and plot this in a bar chat): This exercise directly shows
+    how many missing values for all variables that are directly related
+    to my question in 1.4. Understanding which variables have the most
+    missing values helps in determining the reliability of the analysis.
+
+3.  Use a boxplot to look at the frequency of different observations
+    within a single variable. You can do this for more than one variable
+    if you wish! (plot a side-by-side box plot for distribution for
+    achievements, discount_price, and original_price): The box plot can
+    help me to see the five-number summary and outliers. I plot the
+    side-by-side box plot here so that I can compare these three
+    variables. According to the output from previous exercises, I
+    already know that these three variables have different amounts of
+    missing values. Thus, by using the side-by-side box plot I might be
+    able to research How the data is distributed and whether missing
+    values affect the dataset.
+
+4.  Use a density plot to explore any of your variables (that are
+    suitable for this type of plot). (plot the density plot for
+    achievements, discount_price, and original_price): The density plot
+    provides a smooth estimate of the data distribution, and I can
+    visualize how the missing values might alter the perceived
+    distribution of variables. In some cases, I can find the range of
+    missing values. This helps to illustrate whether missing values are
+    causing certain areas to be underrepresented.
+
 <!----------------------------------------------------------------------------->
 
 # Task 3: Choose research questions
