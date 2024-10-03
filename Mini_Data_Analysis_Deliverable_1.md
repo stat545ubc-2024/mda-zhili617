@@ -391,7 +391,8 @@ print(missing_value_graph) #show up the plot that answer "how many missing value
 ```
 
 ![](Mini_Data_Analysis_Deliverable_1_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
-4. Explore the relationship between 2 variables in a plot.
+
+4.  Explore the relationship between 2 variables in a plot.
 
 5.  Filter observations in your data according to your own criteria.
     Think of what you’d like to explore - again, if this was the
@@ -447,8 +448,9 @@ ggplot(steam_games_numeric, aes(x = numerical_variable , y = value)) +
 ```
 
 ![](Mini_Data_Analysis_Deliverable_1_files/figure-gfm/unnamed-chunk-5-2.png)<!-- -->
-7. Make a new tibble with a subset of your data, with variables and
-observations that you are interested in exploring.
+
+7.  Make a new tibble with a subset of your data, with variables and
+    observations that you are interested in exploring.
 
 8.  Use a density plot to explore any of your variables (that are
     suitable for this type of plot).
