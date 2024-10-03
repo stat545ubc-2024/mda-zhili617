@@ -34,7 +34,7 @@ This project will be completed by 2 milestones. In the first milestone, I analyz
 
 * **Mini_Data_Analysis_Deliverable_1.md**: The knitted output of *Mini_Data_Analysis_Deliverable_1.Rmd*.
 
-* **Mini_Data_Analysis_Deliverable_1_files**: All images for *Mini_Data_Analysis_Deliverable_1.md*.
+* **Mini_Data_Analysis_Deliverable_1_files/figure-gfm**: All images for *Mini_Data_Analysis_Deliverable_1.md*.
 
 
 
