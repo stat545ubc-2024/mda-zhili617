@@ -503,35 +503,76 @@ sufficient comments for a reader to understand your reasoning and code.
     shape of distribution, outliers, and modality of data. Most
     importantly, while the distribution graph does not directly show
     missing values, it can indirectly reflect their impact. This might
-    help me to answer the question I gave in 1.4.
+    help me to answer the question I gave in 1.4. The results show that
+    all three variables are right-skewed distributions, suggesting that
+    most of the values for price and achievements are concentrated at
+    lower values. Each distribution has several outliers. Moreover, the
+    number of non-missing values for achievements and original_price
+    appears to be smaller compared to discount_price, which might imply
+    that original_price contains fewer NA values than the other two
+    variables. I set a specific range for the x-axis on achievements
+    because without this code the graph would look like an “L” without
+    showing information (like peaks or outliers).
 
 2.  Investigate how many missing values there are per variable. Can you
     find a way to plot this? (show up the missing values for each
     variable and plot this in a bar chat): This exercise directly shows
-    how many missing values for all variables that are directly related
-    to my question in 1.4. Understanding which variables have the most
-    missing values helps in determining the reliability of the analysis.
+    how many NA values for all variables that are directly related to my
+    question in 1.4. Understanding which variables have the most missing
+    values helps in determining the reliability of the analysis.
+    According to the graph, the number of missing values for
+    discount_price is much smaller compared to the number of missing
+    values for achievements and original_price. This observation aligns
+    with the conjecture made in the analysis of the previous question,
+    where we speculated that original_price and achievements have more
+    NA values. Since both achievements and original_price have a big
+    amount of missing data, the summary statistics derived from these
+    variables might be distorted, reducing the reliability of any
+    conclusions based on them.
 
 3.  Use a boxplot to look at the frequency of different observations
     within a single variable. You can do this for more than one variable
     if you wish! (plot a side-by-side box plot for distribution for
     achievements, discount_price, and original_price): The box plot can
-    help me to see the five-number summary and outliers. I plot the
-    side-by-side box plot here so that I can compare these three
-    variables. According to the output from previous exercises, I
+    help me to see the five-number summary (minimum, first quartile,
+    median, third quartile, and maximum), outliers, and extreme values.
+    I plot the side-by-side box plot here so that I can compare these
+    three variables. According to the output from previous exercises, I
     already know that these three variables have different amounts of
     missing values. Thus, by using the side-by-side box plot I might be
     able to research How the data is distributed and whether missing
-    values affect the dataset.
+    values affect the dataset. One challenge with this visualization is
+    the presence of numerous outliers and extreme values, which
+    significantly stretches the y-axis and makes it difficult to observe
+    the central part of the data. To address this, I imposed a limit on
+    the y-axis. The new boxplot clearly shows up the five-number
+    summaries. It also shows the fact that most of the data is
+    concentrated at 75 and the data above 75 is considered outlier. The
+    adjusting of the y-axis not only highlights the main portion of data
+    but also acknowledges the presence of outliers.
 
 4.  Use a density plot to explore any of your variables (that are
     suitable for this type of plot). (plot the density plot for
     achievements, discount_price, and original_price): The density plot
     provides a smooth estimate of the data distribution, and I can
     visualize how the missing values might alter the perceived
-    distribution of variables. In some cases, I can find the range of
-    missing values. This helps to illustrate whether missing values are
-    causing certain areas to be underrepresented.
+    distribution of variables. This helps to illustrate whether missing
+    values are causing certain areas to be underrepresented. I limited
+    the x-axis range to 0-100 for both achievements and original_price,
+    as observed from the boxplot, because as shown in the boxplot, most
+    of the data of these two variables are concentrated at 75 and
+    without these limits, the detail of information wouldn’t show up due
+    to the high y-axis (same issue with the first boxplot). This
+    adjustment enables me to focus on the relevant range and observe the
+    distribution more clearly. The distribution of the three images is
+    biased to the right, and the peak is concentrated on the far left,
+    indicating that most of the data is concentrated at low values,
+    which is consistent with the analysis in the previous questions.
+    Based on the missing values bar chart and these density plots, I
+    speculate that the missing values are more likely concentrated at
+    higher values. The sharp decline in density at higher values
+    suggests that the higher-priced games or achievements might be
+    underrepresented due to missing data.
 
 <!----------------------------------------------------------------------------->
 
