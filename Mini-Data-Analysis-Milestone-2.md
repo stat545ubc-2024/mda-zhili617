@@ -88,10 +88,12 @@ were. This will guide your work through milestone 2:
 
 <!-------------------------- Start your work below ---------------------------->
 
-1.  *FILL_THIS_IN*
-2.  *FILL_THIS_IN*
-3.  *FILL_THIS_IN*
-4.  *FILL_THIS_IN*
+1.  *How are games from different types or publishers discounted?*
+2.  *How are games with different original_price ranges distributed
+    across types?*
+3.  *How do missing values impact the analysis of discount_price in
+    Steam games?*
+4.  *How do original_price and discount_price relate to each other?*
     <!----------------------------------------------------------------------------->
 
 Here, we will investigate your data using various data manipulation and
