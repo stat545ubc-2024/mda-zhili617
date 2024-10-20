@@ -443,6 +443,44 @@ untidy? Go through all your columns, or if you have \>8 variables, just
 pick 8, and explain whether the data is untidy or tidy.
 
 <!--------------------------- Start your work below --------------------------->
+
+**types**: Indicate the type of game including App, bundle, sub, and NA.
+This is *tidy* because each entry has a single type, and each cell has
+only one value on this.
+
+**languages**: List the languages supported by the game, separated by a
+comma. This is *untidy* because for some cells there exist multiple
+languages in a single cell.
+
+**game_details**：List of the features supported by the game, separated
+by a comma (e.g. single player, co-op, …). This is *untidy* because for
+some cells there exist multiple features in a single cell.
+
+**discount_price**: Indicate the discount price of a game. This is
+*tidy* because each cell contains a single numerical value representing
+the discount price.
+
+**original_price**: Indicate the original price of a game. This is
+*tidy* because each cell contains a single numerical value representing
+the original price..
+
+**genres**: List of genres for the game, separated by a comma
+(e.g. Action, RPG, …). This is *untidy* because for some cells there
+exist multiple genres in a single cell.
+
+**release_date**: Indicate the release date of game. This is *tidy*
+because each cell contains a single date value representing the release
+date..
+
+**publisher**: List of publishers for the game, separated by a comma.
+This is *untidy* because multiple publishers are stored in a single
+cell.
+
+Overall, tidy variables are types, discount_price, original_price,
+release_date; the untidy variables are languages, game_details, genres,
+publisher. Hence, the data set steam_games is currently untidy due to
+multiple values in several cells.
+
 <!----------------------------------------------------------------------------->
 
 ### 2.2 (4 points)
