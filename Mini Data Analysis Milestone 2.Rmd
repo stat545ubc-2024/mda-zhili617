@@ -93,6 +93,123 @@ Make sure it's clear what research question you are doing each operation for!
 
 <!------------------------- Start your work below ----------------------------->
 
+### **How are games from different types or publishers discounted?**
+```{r}
+#Summarizing: #1
+discount_types <- steam_games %>%
+                  group_by(types) %>%
+                  summarise(
+                  mean_discount = mean(discount_price, na.rm = TRUE),
+                  min_discount = min(discount_price, na.rm = TRUE),
+                  max_discount = max(discount_price, na.rm = TRUE),
+                  sd_discount = sd(discount_price, na.rm = TRUE)
+                  )
+print(discount_types)
+
+
+#Graphing: #6
+ggplot(steam_games, aes(x = types, y = discount_price)) +
+  geom_boxplot(na.rm = TRUE) +
+  scale_y_log10(labels = scales::comma) +
+  labs(
+    title = "Logarithmic Distribution of Discount Price by Types",
+    x = "Game Types",
+    y = "Discount Price (Log Scale)"
+  ) +
+  theme_bw() 
+
+```
+
+This help to answer the question because it clearly compare the five number summary of discount for each type of games.
+
+### **How are games with different original_price ranges distributed across types?**
+```{r}
+#Summarizing: #3
+original_type <- steam_games %>%
+                 group_by(types) %>%
+                 mutate(original_level = factor(case_when(
+                 original_price < quantile(original_price, 0.2, na.rm = TRUE) ~ "very low",
+                 original_price < quantile(original_price, 0.4, na.rm = TRUE) ~ "low",
+                 original_price < quantile(original_price, 0.6, na.rm = TRUE) ~ "moderate",
+                 original_price < quantile(original_price, 0.8, na.rm = TRUE) ~ "high",
+                 TRUE ~ "very high"),
+                 levels = c('very low', 'low', 'moderate', 'high', 'very high')))
+print(original_type)
+
+#Graphing: #6 #7
+ggplot(original_type, aes(x = original_level, fill =types)) +
+  geom_bar(alpha = 0.7) + 
+  scale_y_log10(labels = scales::comma) + 
+  geom_text(stat = 'count', aes(label = after_stat(count)), position = position_stack(vjust = 0.5), color = "white", size = 3) +
+  labs(
+    x = "Original Level",
+    y = "Count",
+    title = "Logarithmic Bar Chart of Original Levels by Game Type"
+  ) 
+
+
+```
+
+This help answer the question, because separate original price into 5 levels and draw a graph about this and using color to differentiate the types. By doing so, we can clearly see the comparison of the number of different types of games at different original price levels.
+
+### **How do missing values impact the analysis of discount_price in Steam games?**
+```{r}
+#Summarizing: #4
+missing_discounts <- steam_games %>%
+                      mutate(missing_or_not = factor(case_when(is.na(discount_price) ~ "Missing",
+                      TRUE ~ "Not Missing"))) %>%
+                      group_by(types, missing_or_not) %>%
+                     summarise(count = n())
+print(missing_discounts)
+
+## Graphing #8
+ggplot(missing_discounts, aes(x = types, y = count, fill = missing_or_not)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  geom_text(aes(label = count), 
+            position = position_dodge(width = 1), 
+            vjust = -0.5, size = 3) +
+  labs(title = 'Counts of Missing and Not Missing Discount Prices by Types',
+       x = 'Types',
+       y = 'Count')
+
+```
+
+
+The results here do not directly answer the research question, but they help answer it. For example, according to the chart, there are a lot of missing values in the game type app, so we can guess that the missing value caused the average value of the overall discount of the app to drop significantly. For another example, in sub and bundle, the missing value only accounts for a small part, indicating that the missing value has little impact on these two categories.
+
+
+
+### **How do original_price and discount_price relate to each other?**
+```{r}
+#Summarizing: #4
+discount_orginal <- original_type %>%
+                    group_by(types) %>%
+                    mutate(discount_level = factor(case_when(
+                    discount_price < quantile(discount_price, 0.2, na.rm = TRUE) ~ "very low",
+                    discount_price < quantile(discount_price, 0.4, na.rm = TRUE) ~ "low",
+                    discount_price < quantile(discount_price, 0.6, na.rm = TRUE) ~ "moderate",
+                    discount_price < quantile(discount_price, 0.8, na.rm = TRUE) ~ "high",
+                                        TRUE ~ "very high"))) %>%
+                    group_by(discount_level, original_level) %>%
+  summarise(count = n())
+print(discount_orginal)
+
+
+#Graphing: #7 #8
+ggplot(discount_orginal, aes(x = original_level, y = count, fill = discount_level)) +
+  geom_bar(stat = "identity", alpha = 0.7) +
+  geom_text(aes(label = count), 
+            position = position_stack(vjust = 0.5), 
+             size = 2) +
+  labs(
+    title = "Bar Chart of Discount Levels by Original Levels",
+    x = "Original Price Level",
+    y = "Count",
+    fill = "Discount Level"
+  ) 
+
+```
+When answering this research question, I first made a simple classification of the discount price and the original price for better observation. According to the image, the discount distribution becomes wider as the original price increases, so overall, the higher the original price, the greater the possibility and magnitude of the discount. So I think this task helps answer the research question.
 <!----------------------------------------------------------------------------->
 
 ### 1.3 (2 points)
@@ -100,7 +217,13 @@ Make sure it's clear what research question you are doing each operation for!
 Based on the operations that you've completed, how much closer are you to answering your research questions? Think about what aspects of your research questions remain unclear. Can your research questions be refined, now that you've investigated your data a bit more? Which research questions are yielding interesting results?
 
 <!------------------------- Write your answer here ---------------------------->
+**How are games from different types or publishers discounted?**: The summarized part Calculates the mean, range (minimum and maximum), and standard deviation of different game types. Combined with the box plot in the graphing part, we can intuitively see the distribution of discount prices for different game types. However, the impact of different publishers on discounts is not reflected. In subsequent research, we can classify different publishers (due to the large number of different publishers) to further explore the differences in discount strategies for different game types and publishers.
 
+**How are games with different original price ranges distributed across types?**: Dividing the original price into 5 categories helps to see the price distribution more clearly. By drawing a bar chart and marking the number of prices at each level, we can more intuitively see how games with different original price ranges are distributed in each type. Based on the above results, we may be able to study the reasons for such differences further. Interesting result: The discount of bundle-type games is much greater than that of other types of games, which may be to lure players to buy the game itself.
+
+**How do missing values impact the analysis of discount_price in Steam games?**: In this section, I visualized the number of missing and non-missing values for each category of discounted prices using a bar chart. This can highlight the prevalence of missing data in a particular category. However, such an operation cannot directly answer the research question, but can only speculate on the results of the question. Therefore, in order to further study this issue, I think it is possible to replace the NA value with other values, such as mean or median, and then compare the two sets of data images before and after the replacement. Interesting result: In fact, except for app-type games, there are very few missing values for discounted prices of other types of games. If app-type games are excluded, the missing value can be said to have almost no effect on the discount price.
+
+**How do original_price and discount_price relate to each other?**: In this section, I classified the discount price and original price separately, found the discount level in each original level, and expressed it with a bar chart. This clearly describes how the discount changes with the original price. However, the study here only studies the relationship between the two sets of data and does not discuss the reasons for this result. Therefore, in further research, we can discuss the factors that cause this result, and even combine it with the previous question. At the same time, we can also analyze it from the perspective of the percentage of the discount price to the original price.
 
 <!----------------------------------------------------------------------------->
 
