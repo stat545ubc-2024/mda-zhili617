@@ -1,26 +1,26 @@
-"discount_level","original_level","count"
-"high","very low",163
-"high","low",268
-"high","moderate",455
-"high","high",614
-"high","very high",1447
-"low","very low",349
-"low","low",585
-"low","moderate",631
-"low","high",494
-"low","very high",847
-"moderate","very low",233
-"moderate","low",265
-"moderate","moderate",500
-"moderate","high",710
-"moderate","very high",1165
-"very high","very low",5174
-"very high","low",4531
-"very high","moderate",5037
-"very high","high",5867
-"very high","very high",8595
-"very low","very low",833
-"very low","low",690
-"very low","moderate",473
-"very low","high",304
-"very low","very high",603
+"","discount_level","original_level","count"
+"1","high","very low",163
+"2","high","low",268
+"3","high","moderate",455
+"4","high","high",614
+"5","high","very high",1447
+"6","low","very low",349
+"7","low","low",585
+"8","low","moderate",631
+"9","low","high",494
+"10","low","very high",847
+"11","moderate","very low",233
+"12","moderate","low",265
+"13","moderate","moderate",500
+"14","moderate","high",710
+"15","moderate","very high",1165
+"16","very high","very low",5174
+"17","very high","low",4531
+"18","very high","moderate",5037
+"19","very high","high",5867
+"20","very high","very high",8595
+"21","very low","very low",833
+"22","very low","low",690
+"23","very low","moderate",473
+"24","very low","high",304
+"25","very low","very high",603

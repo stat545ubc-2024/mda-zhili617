@@ -124,6 +124,7 @@ This help to answer the question because it clearly compare the five number summ
 ```{r}
 #Summarizing: #3
 original_type <- steam_games %>%
+                 select(types, original_price, discount_price) %>%
                  group_by(types) %>%
                  mutate(original_level = factor(case_when(
                  original_price < quantile(original_price, 0.2, na.rm = TRUE) ~ "very low",
@@ -430,7 +431,6 @@ Take a summary table that you made from Task 1, and write it as a csv file in yo
 <!-------------------------- Start your work below ---------------------------->
 ```{r}
 library(here)
-
 
 write.csv(discount_types, here::here("output", "discount_types.csv"))
 write.csv(original_type, here::here("output", "original_type.csv"))

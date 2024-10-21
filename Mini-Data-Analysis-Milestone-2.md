@@ -198,6 +198,7 @@ number summary of discount for each type of games.
 ``` r
 #Summarizing: #3
 original_type <- steam_games %>%
+                 select(types, original_price, discount_price) %>%
                  group_by(types) %>%
                  mutate(original_level = factor(case_when(
                  original_price < quantile(original_price, 0.2, na.rm = TRUE) ~ "very low",
@@ -209,26 +210,21 @@ original_type <- steam_games %>%
 print(original_type)
 ```
 
-    ## # A tibble: 40,833 × 22
+    ## # A tibble: 40,833 × 4
     ## # Groups:   types [4]
-    ##       id url    types name  desc_snippet recent_reviews all_reviews release_date
-    ##    <dbl> <chr>  <chr> <chr> <chr>        <chr>          <chr>       <chr>       
-    ##  1     1 https… app   DOOM  Now include… Very Positive… Very Posit… May 12, 2016
-    ##  2     2 https… app   PLAY… PLAYERUNKNO… Mixed,(6,214)… Mixed,(836… Dec 21, 2017
-    ##  3     3 https… app   BATT… Take comman… Mixed,(166),-… Mostly Pos… Apr 24, 2018
-    ##  4     4 https… app   DayZ  The post-so… Mixed,(932),-… Mixed,(167… Dec 13, 2018
-    ##  5     5 https… app   EVE … EVE Online … Mixed,(287),-… Mostly Pos… May 6, 2003 
-    ##  6     6 https… bund… Gran… Grand Theft… NaN            NaN         NaN         
-    ##  7     7 https… app   Devi… The ultimat… Very Positive… Very Posit… Mar 7, 2019 
-    ##  8     8 https… app   Huma… Human: Fall… Very Positive… Very Posit… Jul 22, 2016
-    ##  9     9 https… app   They… They Are Bi… Very Positive… Very Posit… Dec 12, 2017
-    ## 10    10 https… app   Warh… In a world … <NA>           Mixed,(904… May 31, 2019
+    ##    types  original_price discount_price original_level
+    ##    <chr>           <dbl>          <dbl> <fct>         
+    ##  1 app              20.0           15.0 very high     
+    ##  2 app              30.0           NA   very high     
+    ##  3 app              40.0           NA   very high     
+    ##  4 app              45.0           NA   very high     
+    ##  5 app               0             NA   very low      
+    ##  6 bundle           NA             35.2 very high     
+    ##  7 app              60.0           70.4 very high     
+    ##  8 app              15.0           17.6 very high     
+    ##  9 app              30.0           NA   very high     
+    ## 10 app              50.0           NA   very high     
     ## # ℹ 40,823 more rows
-    ## # ℹ 14 more variables: developer <chr>, publisher <chr>, popular_tags <chr>,
-    ## #   game_details <chr>, languages <chr>, achievements <dbl>, genre <chr>,
-    ## #   game_description <chr>, mature_content <chr>, minimum_requirements <chr>,
-    ## #   recommended_requirements <chr>, original_price <dbl>, discount_price <dbl>,
-    ## #   original_level <fct>
 
 ``` r
 #Graphing: #6 #7
