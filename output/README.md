@@ -1,5 +1,5 @@
 
-## The folder contains CSV files with summary tables in Task 1 of milestone 2 and RDS files for saved model objects.
+## The folder contains CSV files with summary tables in Task 1 of milestone 2 and RDS files for saved model objects in milestone 2.
 
 including:
 
