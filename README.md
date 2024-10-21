@@ -49,6 +49,7 @@ In the second milestone, I continued to study the research questions raised in t
 
 * **Mini_Data_Analysis_Deliverable_1_files/figure-gfm**: All images for *Mini_Data_Analysis_Deliverable_1.md*.
 
+* **README.md**: Explaining what is in the **Mini_Data_Milestone_1**.
 
 #### **Mini_Data_Milestone_2**
 
@@ -57,6 +58,8 @@ In the second milestone, I continued to study the research questions raised in t
 * **Mini-Data-Analysis-Milestone-2.md**: The knitted output of **Mini Data Analysis Milestone 2.Rmd**.
 
 * **Mini-Data-Analysis-Milestone-2_files** : All images for **Mini-Data-Analysis-Milestone-2.md**.
+
+* **README.md**: Explaining what is in the **Mini_Data_Milestone_2**.
 
 
 #### **output**
@@ -72,7 +75,7 @@ The folder contains CSV files with summary tables and RDS files for saved model 
 
 * **model.rds**: A linear regression model that indicates a relationship between the original price and discount price.
 
-
+* **README.md**: Explaining what is in the **output**.
 
 
 ### How to Engage with the Repository
