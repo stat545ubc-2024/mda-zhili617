@@ -527,13 +527,14 @@ print(tidyversion_steam_games)
     ## #   recommended_requirements <chr>, original_price <dbl>, discount_price <dbl>
 
 ``` r
-# Since some cells have too many elements and the number is not uniform, it is difficult to use pivot_longer(), pivot_wider(), and separate(), so I choose separate_rows()
+# Since some cells have too many elements and the number of elements is not constant, it is difficult to use pivot_longer(), pivot_wider(), and separate(), so I choose separate_rows() which directly separate the elements separated by commas in the cell.
 ```
 
 Now, we untidy the above data set
 
 ``` r
 untidy_steam_games <- tidyversion_steam_games %>%
+  select(id, types, publisher, discount_price, languages, game_details, genre, publisher) %>%
   group_by(id) %>%
   summarize( 
     languages = paste(unique(languages), collapse = ","), # find the unique language (no repeated language) from the languages column with the same group (with the same id); and combine them into a new string which separate each language with comma.
@@ -570,14 +571,31 @@ analysis in the remaining tasks:
 
 <!-------------------------- Start your work below ---------------------------->
 
-1.  *FILL_THIS_IN*
-2.  *FILL_THIS_IN*
+1.  *How are games with different original price ranges distributed
+    across types?*
+2.  *How are games from different types or publishers discounted?*
 
 <!----------------------------------------------------------------------------->
 
 Explain your decision for choosing the above two research questions.
 
 <!--------------------------- Start your work below --------------------------->
+
+The main reason I chose *How are games with different original price
+ranges distributed across types?* is that although the operation in task
+1 has already answered this question completely, I also proposed some
+extensions in question 1.3: “We may be able to further study the reasons
+for this difference.” Among the 8 variables selected in the previous
+step, I think some of them are the reasons for this difference.
+Therefore, I want to use the results after tidying to complete the
+extended questions.
+
+The reason why I’m selecting *How are games from different types or
+publishers discounted?* is that in task 1, due to the complexity of the
+publisher’s items, I only answered the distribution of discount prices
+of different game types. After tidy and untidy operations, I thought
+that maybe I could try group_by publisher to classify publishers and
+study the distribution of discount prices of different publishers.
 <!----------------------------------------------------------------------------->
 
 Now, try to choose a version of your data that you think will be
@@ -589,6 +607,77 @@ dropping irrelevant columns, etc.).
 data, one for each research question.)
 
 <!--------------------------- Start your work below --------------------------->
+
+For the extended question of *How are games with different original
+price ranges distributed across types?*, I chose to use the tidy data in
+the previous question directly to find out the factors that caused the
+difference because I think the variables I chose in the previous
+question may be the cause of the difference. And because I have
+separated the elements that were put together through the tidy step, I
+can compare games with the same elements together and control the
+variables (such as the same genre, publisher，…), which makes it easier
+for me to conduct extended research on this question.
+
+``` r
+tidyversion_steam_games <- steam_games %>%
+                           separate_rows(languages, sep = ",") %>%
+                           separate_rows(game_details, sep = ",") %>%
+                           separate_rows(genre, sep = ",") %>%
+                           separate_rows(publisher, sep = ",")
+print(tidyversion_steam_games)
+```
+
+    ## # A tibble: 4,234,718 × 21
+    ##       id url    types name  desc_snippet recent_reviews all_reviews release_date
+    ##    <dbl> <chr>  <chr> <chr> <chr>        <chr>          <chr>       <chr>       
+    ##  1     1 https… app   DOOM  Now include… Very Positive… Very Posit… May 12, 2016
+    ##  2     1 https… app   DOOM  Now include… Very Positive… Very Posit… May 12, 2016
+    ##  3     1 https… app   DOOM  Now include… Very Positive… Very Posit… May 12, 2016
+    ##  4     1 https… app   DOOM  Now include… Very Positive… Very Posit… May 12, 2016
+    ##  5     1 https… app   DOOM  Now include… Very Positive… Very Posit… May 12, 2016
+    ##  6     1 https… app   DOOM  Now include… Very Positive… Very Posit… May 12, 2016
+    ##  7     1 https… app   DOOM  Now include… Very Positive… Very Posit… May 12, 2016
+    ##  8     1 https… app   DOOM  Now include… Very Positive… Very Posit… May 12, 2016
+    ##  9     1 https… app   DOOM  Now include… Very Positive… Very Posit… May 12, 2016
+    ## 10     1 https… app   DOOM  Now include… Very Positive… Very Posit… May 12, 2016
+    ## # ℹ 4,234,708 more rows
+    ## # ℹ 13 more variables: developer <chr>, publisher <chr>, popular_tags <chr>,
+    ## #   game_details <chr>, languages <chr>, achievements <dbl>, genre <chr>,
+    ## #   game_description <chr>, mature_content <chr>, minimum_requirements <chr>,
+    ## #   recommended_requirements <chr>, original_price <dbl>, discount_price <dbl>
+
+For research the question *How are games from different types or
+publishers discounted?* I’d like to create a new data. Because I am only
+interested in types, publishers, and discount prices in this problem, I
+plan to only include these variables in this data and add ids to
+distinguish them. At the same time, because the publisher in steam_games
+is untidy (contains multiple elements in one cell), I also plan to tidy
+the publisher.
+
+``` r
+type_publisher_discount_data <- steam_games %>%
+                                select(id, types, publisher, discount_price)%>%
+                                separate_rows(publisher, sep = ",") %>%
+                                distinct(id, publisher, .keep_all = TRUE) #removed the repeated publisher for the same game id
+print(type_publisher_discount_data)
+```
+
+    ## # A tibble: 44,590 × 4
+    ##       id types  publisher             discount_price
+    ##    <dbl> <chr>  <chr>                          <dbl>
+    ##  1     1 app    "Bethesda Softworks"            15.0
+    ##  2     2 app    "PUBG Corporation"              NA  
+    ##  3     3 app    "Paradox Interactive"           NA  
+    ##  4     4 app    "Bohemia Interactive"           NA  
+    ##  5     5 app    "CCP"                           NA  
+    ##  6     6 bundle "Rockstar Games"                35.2
+    ##  7     7 app    "CAPCOM Co."                    70.4
+    ##  8     7 app    " Ltd."                         70.4
+    ##  9     8 app    "Curve Digital"                 17.6
+    ## 10     9 app    "Numantian Games"               NA  
+    ## # ℹ 44,580 more rows
+
+<!----------------------------------------------------------------------------->
 
 # Task 3: Modelling
 
