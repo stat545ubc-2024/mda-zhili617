@@ -368,9 +368,9 @@ Pick a research question from 1.2, and pick a variable of interest (we'll call i
 
 <!-------------------------- Start your work below ---------------------------->
 
-**Research Question**: FILL_THIS_IN
+**Research Question**: How do original_price and discount_price relate to each other?
 
-**Variable of interest**: FILL_THIS_IN
+**Variable of interest**: original_price
 
 <!----------------------------------------------------------------------------->
 
@@ -385,7 +385,13 @@ Fit a model or run a hypothesis test that provides insight on this variable with
     -   You could use `lm()` to test for significance of regression coefficients.
 
 <!-------------------------- Start your work below ---------------------------->
+```{r}
+model <- lm(discount_price ~ original_price, data = steam_games)
 
+print(model)
+                               
+```
+The result show that discount_price and original_price has a positive linear relationship although the linear coefficient is quit small. (the impact of discount_price on original_price is small.)
 <!----------------------------------------------------------------------------->
 
 ## 3.2 (3 points)
@@ -397,6 +403,16 @@ Produce something relevant from your fitted model: either predictions on Y, or a
 -   Obtain your results using the `broom` package if possible. If your model is not compatible with the broom function you're needing, then you can obtain your results by some other means, but first indicate which broom function is not compatible.
 
 <!-------------------------- Start your work below ---------------------------->
+
+I'm using the tidy() from package broom, which will output the a tibble containing the model coefficients and their standard errors, t statistics, and p-values.
+```{r}
+library(broom)
+
+tidy(model)
+augment(model)                            
+```
+
+Both of the two p-values in the code above is small enough( < 0.05) which implies both coefficient and Intercept have statistical significance. The small standard error also implies the lienar relationship of discount_price and original_price is reliable. 
 
 <!----------------------------------------------------------------------------->
 

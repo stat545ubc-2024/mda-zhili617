@@ -689,9 +689,10 @@ these.
 
 <!-------------------------- Start your work below ---------------------------->
 
-**Research Question**: FILL_THIS_IN
+**Research Question**: How do original_price and discount_price relate
+to each other?
 
-**Variable of interest**: FILL_THIS_IN
+**Variable of interest**: original_price
 
 <!----------------------------------------------------------------------------->
 
@@ -718,6 +719,24 @@ specifics in STAT 545.
         coefficients.
 
 <!-------------------------- Start your work below ---------------------------->
+
+``` r
+model <- lm(discount_price ~ original_price, data = steam_games)
+
+print(model)
+```
+
+    ## 
+    ## Call:
+    ## lm(formula = discount_price ~ original_price, data = steam_games)
+    ## 
+    ## Coefficients:
+    ##    (Intercept)  original_price  
+    ##        45.1184          0.2203
+
+The result show that discount_price and original_price has a positive
+linear relationship although the linear coefficient is quit small. (the
+impact of discount_price on original_price is small.)
 <!----------------------------------------------------------------------------->
 
 ## 3.2 (3 points)
@@ -735,6 +754,48 @@ Y, or a single value like a regression coefficient or a p-value.
     which broom function is not compatible.
 
 <!-------------------------- Start your work below ---------------------------->
+
+I’m using the tidy() from package broom, which will output the a tibble
+containing the model coefficients and their standard errors, t
+statistics, and p-values.
+
+``` r
+library(broom)
+
+tidy(model)
+```
+
+    ## # A tibble: 2 × 5
+    ##   term           estimate std.error statistic  p.value
+    ##   <chr>             <dbl>     <dbl>     <dbl>    <dbl>
+    ## 1 (Intercept)      45.1      0.946       47.7 0       
+    ## 2 original_price    0.220    0.0117      18.8 1.88e-77
+
+``` r
+augment(model)                            
+```
+
+    ## # A tibble: 12,178 × 9
+    ##    .rownames discount_price original_price .fitted .resid    .hat .sigma .cooksd
+    ##    <chr>              <dbl>          <dbl>   <dbl>  <dbl>   <dbl>  <dbl>   <dbl>
+    ##  1 1                   15.0          20.0     49.5 -34.5  8.24e-5   99.3 4.98e-6
+    ##  2 7                   70.4          60.0     58.3  12.1  9.94e-5   99.3 7.36e-7
+    ##  3 8                   17.6          15.0     48.4 -30.8  8.35e-5   99.3 4.02e-6
+    ##  4 12                  60.0          40.0     53.9   6.04 8.53e-5   99.3 1.58e-7
+    ##  5 14                 906.            1.02    45.3 861.   9.00e-5   99.0 3.38e-3
+    ##  6 20                 122.           20.0     49.5  72.8  8.24e-5   99.3 2.21e-5
+    ##  7 21                 906.            1.02    45.3 861.   9.00e-5   99.0 3.38e-3
+    ##  8 22                  38.2          30.0     51.7 -13.5  8.25e-5   99.3 7.59e-7
+    ##  9 24                  55.0          20.0     49.5   5.45 8.24e-5   99.3 1.24e-7
+    ## 10 27                  15.0           9.99    47.3 -32.3  8.52e-5   99.3 4.52e-6
+    ## # ℹ 12,168 more rows
+    ## # ℹ 1 more variable: .std.resid <dbl>
+
+Both of the two p-values in the code above is small enough( \< 0.05)
+which implies both coefficient and Intercept have statistical
+significance. The small standard error also implies the lienar
+relationship of discount_price and original_price is reliable.
+
 <!----------------------------------------------------------------------------->
 
 # Task 4: Reading and writing data
