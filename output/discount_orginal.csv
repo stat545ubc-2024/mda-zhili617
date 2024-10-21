@@ -1,0 +1,26 @@
+"discount_level","original_level","count"
+"high","very low",163
+"high","low",268
+"high","moderate",455
+"high","high",614
+"high","very high",1447
+"low","very low",349
+"low","low",585
+"low","moderate",631
+"low","high",494
+"low","very high",847
+"moderate","very low",233
+"moderate","low",265
+"moderate","moderate",500
+"moderate","high",710
+"moderate","very high",1165
+"very high","very low",5174
+"very high","low",4531
+"very high","moderate",5037
+"very high","high",5867
+"very high","very high",8595
+"very low","very low",833
+"very low","low",690
+"very low","moderate",473
+"very low","high",304
+"very low","very high",603

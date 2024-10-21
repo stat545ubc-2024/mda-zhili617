@@ -428,6 +428,17 @@ Take a summary table that you made from Task 1, and write it as a csv file in yo
 -   **Reproducibility criteria**: You should be able to delete the csv file, and remake it simply by knitting this Rmd file.
 
 <!-------------------------- Start your work below ---------------------------->
+```{r}
+library(here)
+
+
+write.csv(discount_types, here::here("output", "discount_types.csv"))
+write.csv(original_type, here::here("output", "original_type.csv"))
+write.csv(missing_discounts, here::here("output", "missing_discounts.csv"))
+write.csv(discount_orginal, here::here("output", "discount_orginal.csv"))
+
+                        
+```
 
 <!----------------------------------------------------------------------------->
 
@@ -438,7 +449,10 @@ Write your model object from Task 3 to an R binary file (an RDS), and load it ag
 -   The same robustness and reproducibility criteria as in 4.1 apply here.
 
 <!-------------------------- Start your work below ---------------------------->
-
+```{r}
+saveRDS(model, here::here("output", "model.rds"))
+readRDS(here::here("output", "model.rds"))                           
+```
 <!----------------------------------------------------------------------------->
 
 # Overall Reproducibility/Cleanliness/Coherence Checklist 

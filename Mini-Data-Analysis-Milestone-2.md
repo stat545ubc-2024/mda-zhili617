@@ -817,6 +817,20 @@ file in your `output` folder. Use the `here::here()` function.
     file, and remake it simply by knitting this Rmd file.
 
 <!-------------------------- Start your work below ---------------------------->
+
+``` r
+library(here)
+```
+
+    ## here() starts at E:/UBC/STAT560/mda-zhili617
+
+``` r
+write.csv(discount_types, here::here("output", "discount_types.csv"))
+write.csv(original_type, here::here("output", "original_type.csv"))
+write.csv(missing_discounts, here::here("output", "missing_discounts.csv"))
+write.csv(discount_orginal, here::here("output", "discount_orginal.csv"))
+```
+
 <!----------------------------------------------------------------------------->
 
 ## 4.2 (3 points)
@@ -829,6 +843,20 @@ Use the functions `saveRDS()` and `readRDS()`.
     here.
 
 <!-------------------------- Start your work below ---------------------------->
+
+``` r
+saveRDS(model, here::here("output", "model.rds"))
+readRDS(here::here("output", "model.rds"))                           
+```
+
+    ## 
+    ## Call:
+    ## lm(formula = discount_price ~ original_price, data = steam_games)
+    ## 
+    ## Coefficients:
+    ##    (Intercept)  original_price  
+    ##        45.1184          0.2203
+
 <!----------------------------------------------------------------------------->
 
 # Overall Reproducibility/Cleanliness/Coherence Checklist
