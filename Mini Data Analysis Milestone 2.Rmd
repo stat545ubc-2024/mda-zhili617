@@ -110,14 +110,12 @@ print(discount_types)
 #Graphing: #6
 ggplot(steam_games, aes(x = types, y = discount_price)) +
   geom_boxplot(na.rm = TRUE) +
-  scale_y_log10(labels = scales::comma) +
+  scale_y_log10(labels = scales::comma) + #make the y-axes logarithmic, and format the y-axes labels
   labs(
     title = "Logarithmic Distribution of Discount Price by Types",
     x = "Game Types",
     y = "Discount Price (Log Scale)"
-  ) +
-  theme_bw() 
-
+  ) 
 ```
 
 This help to answer the question because it clearly compare the five number summary of discount for each type of games.
@@ -137,10 +135,10 @@ original_type <- steam_games %>%
 print(original_type)
 
 #Graphing: #6 #7
-ggplot(original_type, aes(x = original_level, fill =types)) +
+ggplot(original_type, aes(x = original_level, fill =types)) + 
   geom_bar(alpha = 0.7) + 
   scale_y_log10(labels = scales::comma) + 
-  geom_text(stat = 'count', aes(label = after_stat(count)), position = position_stack(vjust = 0.5), color = "white", size = 3) +
+  geom_text(stat = 'count', aes(label = after_stat(count)), position = position_stack(vjust = 0.5), color = "white", size = 3) + # write the observed count for each types
   labs(
     x = "Original Level",
     y = "Count",
@@ -156,15 +154,15 @@ This help answer the question, because separate original price into 5 levels and
 ```{r}
 #Summarizing: #4
 missing_discounts <- steam_games %>%
-                      mutate(missing_or_not = factor(case_when(is.na(discount_price) ~ "Missing",
-                      TRUE ~ "Not Missing"))) %>%
-                      group_by(types, missing_or_not) %>%
+                     mutate(missing_or_not = factor(case_when(is.na(discount_price) ~ "Missing",
+                     TRUE ~ "Not Missing"))) %>%
+                     group_by(types, missing_or_not) %>%
                      summarise(count = n())
 print(missing_discounts)
 
 ## Graphing #8
 ggplot(missing_discounts, aes(x = types, y = count, fill = missing_or_not)) +
-  geom_bar(stat = "identity", position = "dodge") +
+  geom_bar(stat = "identity", position = "dodge") + # let the missing number and non missing number be the y-axis and make different groups of bars appear side by side instead of stacked on top of each other
   geom_text(aes(label = count), 
             position = position_dodge(width = 1), 
             vjust = -0.5, size = 3) +
@@ -257,14 +255,14 @@ Based on the definition above, can you identify if your data is tidy or untidy? 
 **original_price**: Indicate the original price of a game. This is *tidy* because each cell contains a single numerical value representing the original price..
 
 
-**genres**: List of genres for the game, separated by a comma (e.g. Action, RPG, ...). This is *untidy* because for some cells there exist multiple genres in a single cell.
+**genre**: List of genres for the game, separated by a comma (e.g. Action, RPG, ...). This is *untidy* because for some cells there exist multiple genres in a single cell.
 
 
 **release_date**: Indicate the release date of game. This is *tidy* because each cell contains a single date value representing the release date..
 
 **publisher**: List of publishers for the game, separated by a comma. This is *untidy* because multiple publishers are stored in a single cell.
 
-Overall, tidy variables are types, discount_price, original_price, release_date; the untidy variables are languages, game_details, genres, publisher. Hence, the data set steam_games is currently untidy due to multiple values in several cells.
+Overall, tidy variables are types, discount_price, original_price, release_date; the untidy variables are languages, game_details, genre, publisher. Hence, the data set steam_games is currently untidy due to multiple values in several cells.
 
 <!----------------------------------------------------------------------------->
 
@@ -277,6 +275,40 @@ If your data is untidy, then tidy it! Then, untidy it back to it's original stat
 Be sure to explain your reasoning for this task. Show us the "before" and "after".
 
 <!--------------------------- Start your work below --------------------------->
+
+
+According to the analysis above, we know the data set steam_games_new is untidy. We now tidy it
+```{r}
+
+tidyversion_steam_games <- steam_games %>%
+                           separate_rows(languages, sep = ",") %>%
+                           separate_rows(game_details, sep = ",") %>%
+                           separate_rows(genre, sep = ",") %>%
+                           separate_rows(publisher, sep = ",")
+print(tidyversion_steam_games)
+
+# Since some cells have too many elements and the number is not uniform, it is difficult to use pivot_longer(), pivot_wider(), and separate(), so I choose separate_rows()
+
+```
+
+
+Now, we untidy the above data set
+
+```{r}
+untidy_steam_games <- tidyversion_steam_games %>%
+  group_by(id) %>%
+  summarize( 
+    languages = paste(unique(languages), collapse = ","), # find the unique language (no repeated language) from the languages column with the same group (with the same id); and combine them into a new string which separate each language with comma.
+    game_details = paste(unique(game_details), collapse = ","),
+    genre = paste(unique(genre), collapse = ","),
+    publisher = paste(publisher, collapse = ",") # I'm not using unique here is because I realized that the original publisher contains the repeated outcome. If I write unique here, the variable publisher would be tidy.
+  )
+print(untidy_steam_games)
+
+```
+
+
+
 
 <!----------------------------------------------------------------------------->
 

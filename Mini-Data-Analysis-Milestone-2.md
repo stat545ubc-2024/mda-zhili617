@@ -177,13 +177,12 @@ print(discount_types)
 #Graphing: #6
 ggplot(steam_games, aes(x = types, y = discount_price)) +
   geom_boxplot(na.rm = TRUE) +
-  scale_y_log10(labels = scales::comma) +
+  scale_y_log10(labels = scales::comma) + #make the y-axes logarithmic, and format the y-axes labels
   labs(
     title = "Logarithmic Distribution of Discount Price by Types",
     x = "Game Types",
     y = "Discount Price (Log Scale)"
-  ) +
-  theme_bw() 
+  ) 
 ```
 
     ## Warning in scale_y_log10(labels = scales::comma): log-10 transformation
@@ -233,10 +232,10 @@ print(original_type)
 
 ``` r
 #Graphing: #6 #7
-ggplot(original_type, aes(x = original_level, fill =types)) +
+ggplot(original_type, aes(x = original_level, fill =types)) + 
   geom_bar(alpha = 0.7) + 
   scale_y_log10(labels = scales::comma) + 
-  geom_text(stat = 'count', aes(label = after_stat(count)), position = position_stack(vjust = 0.5), color = "white", size = 3) +
+  geom_text(stat = 'count', aes(label = after_stat(count)), position = position_stack(vjust = 0.5), color = "white", size = 3) + # write the observed count for each types
   labs(
     x = "Original Level",
     y = "Count",
@@ -256,9 +255,9 @@ different types of games at different original price levels.
 ``` r
 #Summarizing: #4
 missing_discounts <- steam_games %>%
-                      mutate(missing_or_not = factor(case_when(is.na(discount_price) ~ "Missing",
-                      TRUE ~ "Not Missing"))) %>%
-                      group_by(types, missing_or_not) %>%
+                     mutate(missing_or_not = factor(case_when(is.na(discount_price) ~ "Missing",
+                     TRUE ~ "Not Missing"))) %>%
+                     group_by(types, missing_or_not) %>%
                      summarise(count = n())
 ```
 
@@ -285,7 +284,7 @@ print(missing_discounts)
 ``` r
 ## Graphing #8
 ggplot(missing_discounts, aes(x = types, y = count, fill = missing_or_not)) +
-  geom_bar(stat = "identity", position = "dodge") +
+  geom_bar(stat = "identity", position = "dodge") + # let the missing number and non missing number be the y-axis and make different groups of bars appear side by side instead of stacked on top of each other
   geom_text(aes(label = count), 
             position = position_dodge(width = 1), 
             vjust = -0.5, size = 3) +
@@ -464,7 +463,7 @@ the discount price.
 *tidy* because each cell contains a single numerical value representing
 the original price..
 
-**genres**: List of genres for the game, separated by a comma
+**genre**: List of genres for the game, separated by a comma
 (e.g. Action, RPG, …). This is *untidy* because for some cells there
 exist multiple genres in a single cell.
 
@@ -477,7 +476,7 @@ This is *untidy* because multiple publishers are stored in a single
 cell.
 
 Overall, tidy variables are types, discount_price, original_price,
-release_date; the untidy variables are languages, game_details, genres,
+release_date; the untidy variables are languages, game_details, genre,
 publisher. Hence, the data set steam_games is currently untidy due to
 multiple values in several cells.
 
@@ -495,6 +494,71 @@ Be sure to explain your reasoning for this task. Show us the “before”
 and “after”.
 
 <!--------------------------- Start your work below --------------------------->
+
+According to the analysis above, we know the data set steam_games_new is
+untidy. We now tidy it
+
+``` r
+tidyversion_steam_games <- steam_games %>%
+                           separate_rows(languages, sep = ",") %>%
+                           separate_rows(game_details, sep = ",") %>%
+                           separate_rows(genre, sep = ",") %>%
+                           separate_rows(publisher, sep = ",")
+print(tidyversion_steam_games)
+```
+
+    ## # A tibble: 4,234,718 × 21
+    ##       id url    types name  desc_snippet recent_reviews all_reviews release_date
+    ##    <dbl> <chr>  <chr> <chr> <chr>        <chr>          <chr>       <chr>       
+    ##  1     1 https… app   DOOM  Now include… Very Positive… Very Posit… May 12, 2016
+    ##  2     1 https… app   DOOM  Now include… Very Positive… Very Posit… May 12, 2016
+    ##  3     1 https… app   DOOM  Now include… Very Positive… Very Posit… May 12, 2016
+    ##  4     1 https… app   DOOM  Now include… Very Positive… Very Posit… May 12, 2016
+    ##  5     1 https… app   DOOM  Now include… Very Positive… Very Posit… May 12, 2016
+    ##  6     1 https… app   DOOM  Now include… Very Positive… Very Posit… May 12, 2016
+    ##  7     1 https… app   DOOM  Now include… Very Positive… Very Posit… May 12, 2016
+    ##  8     1 https… app   DOOM  Now include… Very Positive… Very Posit… May 12, 2016
+    ##  9     1 https… app   DOOM  Now include… Very Positive… Very Posit… May 12, 2016
+    ## 10     1 https… app   DOOM  Now include… Very Positive… Very Posit… May 12, 2016
+    ## # ℹ 4,234,708 more rows
+    ## # ℹ 13 more variables: developer <chr>, publisher <chr>, popular_tags <chr>,
+    ## #   game_details <chr>, languages <chr>, achievements <dbl>, genre <chr>,
+    ## #   game_description <chr>, mature_content <chr>, minimum_requirements <chr>,
+    ## #   recommended_requirements <chr>, original_price <dbl>, discount_price <dbl>
+
+``` r
+# Since some cells have too many elements and the number is not uniform, it is difficult to use pivot_longer(), pivot_wider(), and separate(), so I choose separate_rows()
+```
+
+Now, we untidy the above data set
+
+``` r
+untidy_steam_games <- tidyversion_steam_games %>%
+  group_by(id) %>%
+  summarize( 
+    languages = paste(unique(languages), collapse = ","), # find the unique language (no repeated language) from the languages column with the same group (with the same id); and combine them into a new string which separate each language with comma.
+    game_details = paste(unique(game_details), collapse = ","),
+    genre = paste(unique(genre), collapse = ","),
+    publisher = paste(publisher, collapse = ",") # I'm not using unique here is because I realized that the original publisher contains the repeated outcome. If I write unique here, the variable publisher would be tidy.
+  )
+print(untidy_steam_games)
+```
+
+    ## # A tibble: 40,833 × 5
+    ##       id languages                                  game_details genre publisher
+    ##    <dbl> <chr>                                      <chr>        <chr> <chr>    
+    ##  1     1 English,French,Italian,German,Spanish - S… Single-play… Acti… Bethesda…
+    ##  2     2 English,Korean,Simplified Chinese,French,… Multi-playe… Acti… PUBG Cor…
+    ##  3     3 English,French,German,Russian              Single-play… Acti… Paradox …
+    ##  4     4 English,French,Italian,German,Spanish - S… Multi-playe… Acti… Bohemia …
+    ##  5     5 English,German,Russian,French              Multi-playe… Acti… CCP,CCP,…
+    ##  6     6 English, French, Italian, German, Spanish… Single-play… Acti… Rockstar…
+    ##  7     7 English,French,Italian,German,Spanish - S… Single-play… Acti… CAPCOM C…
+    ##  8     8 English,French,German,Spanish - Spain,Rus… Single-play… Adve… Curve Di…
+    ##  9     9 English,Spanish - Spain,French,German,Jap… Single-play… Stra… Numantia…
+    ## 10    10 English,French,Italian,German,Spanish - S… Single-play… Acti… Bigben I…
+    ## # ℹ 40,823 more rows
+
 <!----------------------------------------------------------------------------->
 
 ### 2.3 (4 points)
