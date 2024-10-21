@@ -26,16 +26,41 @@ This project will be completed by 2 milestones. In the first milestone, I analyz
 - [x] Become familiar with manipulating and summarizing your data in tibbles using dplyr.
 
 
+In the second milestone, I continued to study the research questions raised in the last milestone in the Steam games dataset. Through tidy and untidy exercises, I found a dataset that is more suitable for the research question. In addition, I also briefly practiced fitting models and reading and writing data. Now I've finished the second milestone, and I have achieved the following goals:
+
+- [x] Understand what tidy data is, and be able to create it using tidyr.
+- [x] Generate a reproducible and clear report using R Markdown.
+- [x] Fitting a model object to my data, and extract a result.
+- [x] Reading and writing data as separate files.
+
+
+
 ### File Directory Description
 
-* **README.md**: Provide distinctions for this project and instructions.
+#### **README.md**: Provide distinctions for this project and instructions.
+
+
+#### **Mini_Data_Milestone_1**
+
 
 * **Mini_Data_Analysis_Deliverable_1.Rmd**: The file contains the code and analysis for the first milestone.
 
 * **Mini_Data_Analysis_Deliverable_1.md**: The knitted output of *Mini_Data_Analysis_Deliverable_1.Rmd*.
 
-* **Mini_Data_Analysis_Deliverable_1_files**: All images for *Mini_Data_Analysis_Deliverable_1.md*.
+* **Mini_Data_Analysis_Deliverable_1_files/figure-gfm**: All images for *Mini_Data_Analysis_Deliverable_1.md*.
 
+
+#### **Mini_Data_Milestone_2**
+
+* **Mini Data Analysis Milestone 2.Rmd**: The file contains the code and analysis for the second milestone.
+
+* **Mini-Data-Analysis-Milestone-2.md**: The knitted output of **Mini Data Analysis Milestone 2.Rmd**.
+
+* **Mini-Data-Analysis-Milestone-2_files** : All images for **Mini-Data-Analysis-Milestone-2.md**.
+
+
+#### **output**
+The folder contains CSV files with summary tables and RDS files for saved model objects.
 
 
 ### How to Engage with the Repository
@@ -53,8 +78,10 @@ devtools::install_github("UBC-MDS/datateachr")
 ```R     
 library(datateachr)
 library(tidyverse)
+library(broom)
+library(here)
 ```
-> If unable to load these two libraries, try to install it first by using 
+> If unable to load these Four libraries, try to install it first by using 
 
 ```R
  install.packages("your-package-name")
@@ -72,7 +99,7 @@ library(tidyverse)
 
       What is the impact of missing values (NA) on the analysis of numerical variables in the Steam game dataset?
 
-* Prepared for Milestone 2 :  
+* Milestone 2 :  
                               
       1. How are games from different types or publishers discounted?
 
